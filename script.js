@@ -4,11 +4,20 @@ let todo = JSON.parse(localStorage.getItem("todo")) || []; //this is getting the
 const todoInput = document.getElementById("todoInput"); //grabbing todoInput id from html doc
 const todoList = document.getElementById("todoList");
 const todoCount = document.getElementById("todoCount");
+const themeToggleButton = document.getElementById("themeToggle");
 const addButton = document.querySelector(".btn");
 const deleteButton = document.getElementById("deleteButton");
 
 //initialize inputs
 document.addEventListener("DOMContentLoaded", function () {
+
+  const currentTheme = localStorage.getItem("theme"); //dark mode
+  if (currentTheme) {
+    document.documentElement.setAttribute("data-theme", currentTheme);
+  }
+   //  Set the button's icon based on the theme
+  themeToggleButton.textContent = currentTheme === "dark" ? "☀️" : "🌙";
+
   addButton.addEventListener("click", addTask);
   todoInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -18,6 +27,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   deleteButton.addEventListener("click", deleteAllTasks);
   displayTasks();
+});
+
+// Toggle dark mode when the button is clicked
+themeToggleButton.addEventListener("click", function () {
+  let currentTheme = document.documentElement.getAttribute("data-theme");
+  if (currentTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+    themeToggleButton.textContent = "🌙";
+  } else {
+    document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+    themeToggleButton.textContent = "☀️";
+  }
 });
 
 function addTask() {

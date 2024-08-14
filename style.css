@@ -15,6 +15,23 @@
   --white: #ffffff;
 }
 
+/*add dark mode */
+@media (prefers-color-scheme: dark) {
+  /*if the user has dark mode as a preference, it automatically activates it */
+  [data-theme="dark"] {
+    --gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.73) 0%, #001524 100%);
+    --dark: #ffffff;
+    --grey: #8f98a8;
+    --grey-border: rgba(100, 100, 100, 0.75);
+    --grey-light: #1a1a1a;
+    --grey-dark: #4a4a4a;
+    --blue: #1e90ff;
+    --dark-blue: #0a58ca;
+    --green: #00ffcc;
+    --white: #1a1a1a;
+  }
+}
+
 body {
   background: var(--gradient);
   margin: 0;
@@ -23,6 +40,28 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+#themeToggle.small-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#themeToggle.small-btn:hover {
+  background-color: var(--blue);
 }
 
 /* General button hover effect */
@@ -40,13 +79,15 @@ body {
 #deleteButton {
   background-color: var(--dark-blue);
   color: var(--grey-light);
-  padding: 0.5rem .5rem;
+  padding: 0.5rem 0.5rem;
   border-radius: 0.3rem;
   border: none;
 }
 
 #deleteButton:hover {
-  transform: scale(1.05); /* Slightly increase the size of the "Delete All" button */
+  transform: scale(
+    1.05
+  ); /* Slightly increase the size of the "Delete All" button */
 }
 
 .btn {
@@ -167,7 +208,7 @@ input[type="checkbox"]::before {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  font-size: .7rem;
+  font-size: 0.7rem;
   text-align: center;
   border: 0.06rem solid var(--grey-border);
   border-radius: 50%;
