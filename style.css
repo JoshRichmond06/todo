@@ -61,7 +61,7 @@ body {
 }
 
 #themeToggle.small-btn:hover {
-  background-color: var(--blue);
+  transform: scale(1.1); /* Scale the button slightly on hover */
 }
 
 /* General button hover effect */
@@ -77,7 +77,7 @@ body {
 
 /* Specific styling for the "Delete All" button */
 #deleteButton {
-  background-color: var(--dark-blue);
+  background-color: var(--blue);
   color: var(--grey-light);
   padding: 0.5rem 0.5rem;
   border-radius: 0.3rem;
@@ -162,7 +162,13 @@ input[type="text"]::placeholder {
 
 .todo-container {
   display: flex;
+  align-items: center;
   gap: 1rem;
+}
+
+.task-number {
+  margin-right: 0.5rem; /* Space between the number and the checkbox */
+  font-weight: bold; /* Optional: make the number bold */
 }
 
 ul {

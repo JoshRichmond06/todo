@@ -10,12 +10,11 @@ const deleteButton = document.getElementById("deleteButton");
 
 //initialize inputs
 document.addEventListener("DOMContentLoaded", function () {
-
   const currentTheme = localStorage.getItem("theme"); //dark mode
   if (currentTheme) {
     document.documentElement.setAttribute("data-theme", currentTheme);
   }
-   //  Set the button's icon based on the theme
+  //  Set the button's icon based on the theme
   themeToggleButton.textContent = currentTheme === "dark" ? "☀️" : "🌙";
 
   addButton.addEventListener("click", addTask);
@@ -70,21 +69,22 @@ function updateTaskCount() {
 }
 
 function displayTasks() {
-  todoList.innerHTML = ""; //set to empty first
+  todoList.innerHTML = ""; // Clear the list first
   todo.forEach((item, index) => {
-    const p = document.createElement("p"); //create new html paragraph
+    const p = document.createElement("p"); // Create a new HTML paragraph
     p.innerHTML = `
-        <div class ="todo-container">
-          <input type="checkbox" class="todo-checkbox"
-          id="input-${index}" ${item.disabled ? "checked" : ""}>
+      <div class="todo-container">
+        <span class="task-number">${index + 1}. </span> <!-- Task number -->
+        <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
+      item.disabled ? "checked" : ""
+    }>
         <p id="todo-${index}" class="${
       item.disabled ? "disabled" : ""
-    }" onclick="editTask(${index})">${item.text}
-
+    }" onclick="editTask(${index})">
+          ${item.text}
         </p>
-        </div>
-  
-    `; //html code
+      </div>
+    `; // HTML code
     p.querySelector(".todo-checkbox").addEventListener("change", () => {
       toggleTask(index);
     });
