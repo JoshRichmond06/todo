@@ -8,8 +8,9 @@
   --grey: #b1bacb;
   --grey-border: rgba(210, 210, 210, 0.75);
   --grey-light: #eeeeee;
-  --grey-dark: $405175;
+  --grey-dark: #405175;
   --blue: #2d70fd;
+  --dark-blue: #05308d;
   --green: #00d8a7;
   --white: #ffffff;
 }
@@ -22,6 +23,30 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+/* General button hover effect */
+.btn,
+#deleteButton {
+  transition: transform 0.2s ease; /* Smooth transition for the scaling effect */
+}
+
+.btn:hover,
+#deleteButton:hover {
+  transform: scale(1.05); /* Slightly increase the size of the button */
+}
+
+/* Specific styling for the "Delete All" button */
+#deleteButton {
+  background-color: var(--dark-blue);
+  color: var(--grey-light);
+  padding: 0.5rem .5rem;
+  border-radius: 0.3rem;
+  border: none;
+}
+
+#deleteButton:hover {
+  transform: scale(1.05); /* Slightly increase the size of the "Delete All" button */
 }
 
 .btn {
@@ -44,6 +69,10 @@ h5,
 h6,
 p {
   margin: 0;
+}
+
+.btn:focus {
+  outline: 0.1rem solid var(--blue);
 }
 
 /* Todo Container */
@@ -81,6 +110,11 @@ h2 {
   font-size: 1rem;
 }
 
+.input-field:focus {
+  border-color: var(--blue);
+  outline: none;
+}
+
 input[type="text"]::placeholder {
   color: var(--grey);
 }
@@ -116,7 +150,9 @@ li {
 
 .disabled {
   display: flex;
+  opacity: 0.6;
   text-decoration: line-through;
+  font-style: italic;
 }
 
 input[type="checkbox"] {
