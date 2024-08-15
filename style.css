@@ -126,9 +126,9 @@ p {
   background: var(--white);
   padding: 3rem;
   height: 50%;
-  width: 60%;
+  width: 70%;
   box-shadow: 0 1rem 3rem 1rem rgba(0, 23, 71, 0.15);
-  max-width: 30rem;
+  max-width: 40rem;
 }
 
 h2 {
