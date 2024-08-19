@@ -57,25 +57,38 @@ function handleDragStart(event) {
   event.currentTarget.classList.add("dragging");
 }
 
+// Function to handle the dragging over other tasks
 function handleDragOver(event) {
   event.preventDefault(); // Prevent default to allow dropping
+
+  const afterElement = getDragAfterElement(todoList, event.clientY);
+  const draggingElement = document.querySelector(".dragging");
+
+  if (afterElement == null) {
+    todoList.appendChild(draggingElement); // If there's no element after, append to the end
+  } else if (todoList === afterElement.parentNode) {
+    todoList.insertBefore(draggingElement, afterElement); // Insert before the element found
+  }
 }
 
+// Function to handle when a task enters a drop zone
 function handleDragEnter(event) {
   event.preventDefault();
   const target = event.currentTarget;
   target.classList.add("drag-over");
 }
 
+// Function to handle when a task leaves a drop zone
 function handleDragLeave(event) {
   const target = event.currentTarget;
   target.classList.remove("drag-over");
 }
 
+// Function to handle the drop event
 function handleDrop(event) {
   event.preventDefault();
   const dropTarget = event.currentTarget;
-  const dropTargetIndex = parseInt(dropTarget.getAttribute("data-index"));
+  const dropTargetIndex = Array.from(todoList.children).indexOf(dropTarget);
 
   if (draggedTaskIndex !== dropTargetIndex) {
     const [draggedTask] = todo.splice(draggedTaskIndex, 1); // Remove the dragged task from its original position
@@ -87,27 +100,26 @@ function handleDrop(event) {
   dropTarget.classList.remove("drag-over");
 }
 
+// Function to handle the end of dragging
 function handleDragEnd(event) {
   event.currentTarget.classList.remove("dragging");
   const elements = document.querySelectorAll(".drag-over");
   elements.forEach((element) => element.classList.remove("drag-over"));
 }
-// Function to determine the element after which the dragged item should be placed
-function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll("p:not(.dragging)")]; // Get all draggable elements except the one currently being dragged
 
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect(); // Get the bounding box of the element
-      const offset = y - box.top - box.height / 2; // Calculate the offset from the mouse position to the element's center
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child }; // If this element is closer than the previous closest, update the closest
-      } else {
-        return closest; // Otherwise, return the current closest element
-      }
-    },
-    { offset: Number.NEGATIVE_INFINITY }
-  ).element; // Return the closest element after which the dragged item should be placed
+// Function to find the element after which the dragged item should be placed
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll("p:not(.dragging)")];
+
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 function addTask() {
@@ -181,7 +193,6 @@ function displayTasks() {
 
   updateTaskCount(); // Update the task count whenever tasks are displayed
 }
-
 function editTask(index) {
   const todoItem = document.getElementById(`todo-${index}`); //todo item is the todo text that we click on
   const existingText = todo[index].text; //existing text is the the text in it
