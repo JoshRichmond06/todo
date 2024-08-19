@@ -329,3 +329,8 @@ input[type="checkbox"]:checked::before {
 .scroll::-webkit-scrollbar-track {
   display: none;
 }
+
+.dragging {
+  opacity: 0.5;
+  background-color: var(--grey-light);
+}
