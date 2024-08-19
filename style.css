@@ -90,6 +90,26 @@ body {
   ); /* Slightly increase the size of the "Delete All" button */
 }
 
+.delete-btn {
+  display: none; /* Initially hidden */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  color: var(--red); /* or any color you prefer */
+}
+
+.todo-container:hover .delete-btn {
+  display: inline; /* Show button on hover */
+}
+
+.todo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
 .btn {
   color: var(--white);
   font-size: 1.1rem;

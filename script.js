@@ -8,6 +8,14 @@ const themeToggleButton = document.getElementById("themeToggle");
 const addButton = document.querySelector(".btn");
 const deleteButton = document.getElementById("deleteButton");
 
+function showDeleteButton(index) {
+  document.getElementById(`deleteTask-${index}`).style.display = "inline";
+}
+
+function hideDeleteButton(index) {
+  document.getElementById(`deleteTask-${index}`).style.display = "none";
+}
+
 //initialize inputs
 document.addEventListener("DOMContentLoaded", function () {
   const currentTheme = localStorage.getItem("theme"); //dark mode
@@ -56,6 +64,12 @@ function addTask() {
   }
 }
 
+function deleteTask(index) {
+  todo.splice(index, 1); // Remove the task at the specified index
+  saveToLocalStorage(); // Save the updated list to localStorage
+  displayTasks(); // Update the task list display
+}
+
 function deleteAllTasks() {
   todo = []; //empty tasks array
   saveToLocalStorage();
@@ -73,18 +87,19 @@ function displayTasks() {
   todo.forEach((item, index) => {
     const p = document.createElement("p"); // Create a new HTML paragraph
     p.innerHTML = `
-      <div class="todo-container">
-        <span class="task-number">${index + 1}. </span> <!-- Task number -->
-        <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
+    <div class="todo-container" onmouseover="showDeleteButton(${index})" onmouseout="hideDeleteButton(${index})">
+      <span class="task-number">${index + 1}. </span> <!-- Task number -->
+      <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
       item.disabled ? "checked" : ""
     }>
-        <p id="todo-${index}" class="${
+      <p id="todo-${index}" class="${
       item.disabled ? "disabled" : ""
     }" onclick="editTask(${index})">
-          ${item.text}
-        </p>
-      </div>
-    `; // HTML code
+        ${item.text}
+      </p>
+      <button id="deleteTask-${index}" class="delete-btn" onclick="deleteTask(${index})">"X"</button>
+    </div>
+  `; // HTML code
     p.querySelector(".todo-checkbox").addEventListener("change", () => {
       toggleTask(index);
     });
