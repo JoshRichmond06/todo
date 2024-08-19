@@ -72,12 +72,17 @@ function handleDragOver(event) {
 
 // Function to handle the drop event
 function handleDrop(event) {
-  const dropTargetIndex = event.currentTarget.getAttribute("data-index"); // Get the index of the drop target
-  const draggedTask = todo.splice(draggedTaskIndex, 1)[0]; // Remove the dragged task from the todo array
-  todo.splice(dropTargetIndex, 0, draggedTask); // Insert the dragged task at the new index
-  saveToLocalStorage(); // Save the updated todo list to localStorage
-  displayTasks(); // Redisplay the tasks to reflect the new order
+  const dropTarget = event.target.closest("p"); // Find the drop target
+  const dropTargetIndex = Array.from(todoList.children).indexOf(dropTarget); // Find the new index in the list
+
+  if (draggedTaskIndex !== dropTargetIndex) {
+    const [draggedTask] = todo.splice(draggedTaskIndex, 1); // Remove the dragged task from its original position
+    todo.splice(dropTargetIndex, 0, draggedTask); // Insert it at the new position
+    saveToLocalStorage(); // Save the updated order to localStorage
+    displayTasks(); // Redisplay the tasks to update their order and numbers
+  }
 }
+
 
 // Function to handle the end of dragging
 function handleDragEnd(event) {
@@ -136,14 +141,14 @@ function updateTaskCount() {
 
 // Function to display tasks on the page
 function displayTasks() {
-  todoList.innerHTML = ""; // Clear the current list
+  todoList.innerHTML = ""; // Clear the list first
   todo.forEach((item, index) => {
     const p = document.createElement("p"); // Create a new paragraph element for each task
     p.setAttribute("draggable", "true"); // Make the task draggable
     p.setAttribute("data-index", index); // Store the index of the task
     p.innerHTML = `
       <div class="todo-container">
-        <span class="task-number">${index + 1}. </span> <!-- Display task number -->
+        <span class="task-number">${index + 1}. </span> <!-- Display updated task number based on current index -->
         <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
       item.disabled ? "checked" : ""
     }>
@@ -171,6 +176,8 @@ function displayTasks() {
 
   updateTaskCount(); // Update the task count whenever tasks are displayed
 }
+
+
 
 function editTask(index) {
   const todoItem = document.getElementById(`todo-${index}`); //todo item is the todo text that we click on
