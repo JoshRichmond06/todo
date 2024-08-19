@@ -87,19 +87,19 @@ function displayTasks() {
   todo.forEach((item, index) => {
     const p = document.createElement("p"); // Create a new HTML paragraph
     p.innerHTML = `
-    <div class="todo-container" onmouseover="showDeleteButton(${index})" onmouseout="hideDeleteButton(${index})">
-      <span class="task-number">${index + 1}. </span> <!-- Task number -->
-      <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
+      <div class="todo-container">
+        <span class="task-number">${index + 1}. </span> <!-- Task number -->
+        <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
       item.disabled ? "checked" : ""
     }>
-      <p id="todo-${index}" class="${
+        <p id="todo-${index}" class="${
       item.disabled ? "disabled" : ""
     }" onclick="editTask(${index})">
-        ${item.text}
-      </p>
-      <button id="deleteTask-${index}" class="delete-btn" onclick="deleteTask(${index})">"X"</button>
-    </div>
-  `; // HTML code
+          ${item.text}
+        </p>
+        <button id="deleteTask-${index}" class="delete-btn" onclick="deleteTask(${index})">X</button>
+      </div>
+    `; // HTML code
     p.querySelector(".todo-checkbox").addEventListener("change", () => {
       toggleTask(index);
     });

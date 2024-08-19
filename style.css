@@ -90,25 +90,31 @@ body {
   ); /* Slightly increase the size of the "Delete All" button */
 }
 
+.todo-container {
+  position: relative;
+  padding-right: 2rem; /* Make space for the button */
+  width: 100%; /* Ensure the container takes full width */
+  display: flex;
+  align-items: center;
+}
+
+
 .delete-btn {
-  display: none; /* Initially hidden */
+  position: absolute;
+  right: 0.5rem; /* Adjust this value to move the button closer to the right edge */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
   background-color: transparent;
   border: none;
   cursor: pointer;
-  margin-left: auto;
-  color: var(--red); /* or any color you prefer */
+  display: none; /* Hidden by default */
 }
 
 .todo-container:hover .delete-btn {
   display: inline; /* Show button on hover */
 }
 
-.todo-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
-}
+
 
 .btn {
   color: var(--white);
@@ -180,7 +186,7 @@ input[type="text"]::placeholder {
   color: var(--grey);
 }
 
-.todo-container {
+.todo-container { /* Space between the number and the checkbox and the actual task */
   display: flex;
   align-items: center;
   gap: 1rem;
