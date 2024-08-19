@@ -53,27 +53,29 @@ themeToggleButton.addEventListener("click", function () {
 
 // Function to handle the start of dragging
 function handleDragStart(event) {
-  draggedTaskIndex = event.currentTarget.getAttribute("data-index"); // Store the index of the dragged task
-  event.currentTarget.classList.add("dragging"); // Add a visual indicator for dragging
+  draggedTaskIndex = event.currentTarget.getAttribute("data-index");
+  event.currentTarget.classList.add("dragging");
 }
 
-// Function to handle the dragging over other tasks
 function handleDragOver(event) {
   event.preventDefault(); // Prevent default to allow dropping
-  const afterElement = getDragAfterElement(todoList, event.clientY); // Determine the element after which the dragged item should be placed
-  const draggingElement = document.querySelector(".dragging"); // Get the currently dragged element
-
-  if (afterElement == null) {
-    todoList.appendChild(draggingElement); // If there’s no element after, append to the end
-  } else {
-    todoList.insertBefore(draggingElement, afterElement); // Insert before the element found
-  }
 }
 
-// Function to handle the drop event
+function handleDragEnter(event) {
+  event.preventDefault();
+  const target = event.currentTarget;
+  target.classList.add("drag-over");
+}
+
+function handleDragLeave(event) {
+  const target = event.currentTarget;
+  target.classList.remove("drag-over");
+}
+
 function handleDrop(event) {
-  const dropTarget = event.target.closest("p"); // Find the drop target
-  const dropTargetIndex = Array.from(todoList.children).indexOf(dropTarget); // Find the new index in the list
+  event.preventDefault();
+  const dropTarget = event.currentTarget;
+  const dropTargetIndex = parseInt(dropTarget.getAttribute("data-index"));
 
   if (draggedTaskIndex !== dropTargetIndex) {
     const [draggedTask] = todo.splice(draggedTaskIndex, 1); // Remove the dragged task from its original position
@@ -81,14 +83,15 @@ function handleDrop(event) {
     saveToLocalStorage(); // Save the updated order to localStorage
     displayTasks(); // Redisplay the tasks to update their order and numbers
   }
+
+  dropTarget.classList.remove("drag-over");
 }
 
-
-// Function to handle the end of dragging
 function handleDragEnd(event) {
-  event.currentTarget.classList.remove("dragging"); // Remove the dragging visual indicator
+  event.currentTarget.classList.remove("dragging");
+  const elements = document.querySelectorAll(".drag-over");
+  elements.forEach((element) => element.classList.remove("drag-over"));
 }
-
 // Function to determine the element after which the dragged item should be placed
 function getDragAfterElement(container, y) {
   const draggableElements = [...container.querySelectorAll("p:not(.dragging)")]; // Get all draggable elements except the one currently being dragged
@@ -164,6 +167,8 @@ function displayTasks() {
     // Add event listeners for drag-and-drop functionality
     p.addEventListener("dragstart", handleDragStart); // Handle the start of dragging
     p.addEventListener("dragover", handleDragOver); // Handle dragging over other tasks
+    p.addEventListener("dragenter", handleDragEnter); // Handle when dragged task enters a task
+    p.addEventListener("dragleave", handleDragLeave); // Handle when dragged task leaves a task
     p.addEventListener("drop", handleDrop); // Handle dropping the task
     p.addEventListener("dragend", handleDragEnd); // Handle the end of dragging
 
@@ -176,8 +181,6 @@ function displayTasks() {
 
   updateTaskCount(); // Update the task count whenever tasks are displayed
 }
-
-
 
 function editTask(index) {
   const todoItem = document.getElementById(`todo-${index}`); //todo item is the todo text that we click on

@@ -330,6 +330,10 @@ input[type="checkbox"]:checked::before {
   display: none;
 }
 
+.drag-over {
+  border: solid var(--blue); /* Example styling for the drop zone */
+}
+
 .dragging {
   opacity: 0.5;
   background-color: var(--grey-light);
