@@ -108,7 +108,21 @@ body {
   border: none;
   cursor: pointer;
   display: none; /* Hidden by default */
+  color: rgb(88, 89, 119); /* Choose any color you prefer */
+  font-size: 1rem; /* Increase the font size for a bigger "X" */
+  font-weight: bold; /* Make the "X" bold */
+  padding: 0;
+  line-height: 1; /* Ensure the "X" doesn't get too tall */
+  width: 2rem; /* Adjust width and height to match the size you want */
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
 }
+
+.delete-btn:hover {
+  color: rgb(179, 179, 179); /* Change color on hover if desired */
+}
+
 
 .todo-container:hover .delete-btn {
   display: inline; /* Show button on hover */
